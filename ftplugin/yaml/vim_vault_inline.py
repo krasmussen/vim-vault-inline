@@ -53,10 +53,18 @@ def vault_subshell(string, mode):
             print("Cannot find `ansible-vault` in PATH!")
             return
 
-        vault_command = (
-            'ansible-vault', mode, '-',
-            '--vault-password-file', pass_fn
-        )
+        if mode == MODE_ENCRYPT:
+            vault_command = (
+                'ansible-vault', mode, '-',
+                '--encrypt-vault-id', 'default',
+                '--vault-password-file', pass_fn
+            )
+        else:
+            vault_command = (
+                'ansible-vault', mode, '-',
+                '--vault-password-file', pass_fn
+            )
+
         vault = subprocess.Popen(vault_command,
                                  stdin=subprocess.PIPE,
                                  stdout=subprocess.PIPE)
