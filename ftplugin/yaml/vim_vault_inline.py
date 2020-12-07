@@ -46,7 +46,8 @@ def next_line(line_num):
 
 
 def vault_subshell(string, mode):
-    pass_fn = os.getenv("VAULT_PASSWORD_FILE")
+    pass_fn = os.getenv("VAULT_PASSWORD_FILE") or os.getenv("ANSIBLE_VAULT_PASSWORD_FILE")
+
     if pass_fn:
         pass_fn = os.path.expanduser(pass_fn)
         if not spawn.find_executable("ansible-vault"):
@@ -75,7 +76,7 @@ def vault_subshell(string, mode):
         else:
             print("Could not encrypt value.")
     else:
-        print("Please set 'VAULT_PASSWORD_FILE' in your environment.")
+        print("Please set 'ANSIBLE_VAULT_PASSWORD_FILE' or 'VAULT_PASSWORD_FILE' in your environment.")
 
 
 class VaultHandler(object):
